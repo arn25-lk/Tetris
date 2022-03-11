@@ -177,15 +177,17 @@ public class TetrisGame {
 
     public void translatePiece(boolean direction) {
         ArrayList<Integer> pieceX = fallingPiece.pieceXLoc;
+        ArrayList<Integer> pieceY = fallingPiece.pieceYLoc;
         if(direction){
 
-            if(checkDirection(true, pieceX)){
+            if(checkDirection(true, pieceX, pieceY)){
                 for(int i=0; i<=3; i++){
                     pieceX.set(i, pieceX.get(i)-1);
                 }
             }
         }else{
-            if(checkDirection(false, pieceX)){
+            if(checkDirection(false, pieceX, pieceY)){
+
                 for (int i=0; i<=3; i++){
                     pieceX.set(i, pieceX.get(i)+1);
                 }
@@ -196,17 +198,30 @@ public class TetrisGame {
 
     }
     // Add check for adjacent pieces
-    private boolean checkDirection(boolean direction, ArrayList<Integer> pieceX) {
-        if(direction){
-            for(int x : pieceX){
+    private boolean checkDirection(boolean direction, ArrayList<Integer> pieceX, ArrayList<Integer> pieceY) {
 
-                if(x-1 < 0){
+        if(direction){
+            for(int i = 0; i<= 3; i++){
+
+                if(pieceX.get(i)-1 >= 0 ){
+
+                    if (board.get(pieceY.get(i)).get(pieceX.get(i)-1) != null){
+                        System.out.println(pieceY.get(i));
+                        return false;
+                    }
+                }else {
                     return false;
                 }
             }
         }else{
-            for(int x : pieceX){
-                if(x+1 > 9){
+            for(int i = 0; i<= 3; i++){
+
+                if(pieceX.get(i)+1 <= 9 ){
+
+                    if (board.get(pieceY.get(i)).get(pieceX.get(i)+1) != null){
+                        return false;
+                    }
+                }else {
                     return false;
                 }
             }
